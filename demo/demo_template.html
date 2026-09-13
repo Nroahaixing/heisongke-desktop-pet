@@ -343,11 +343,6 @@
           <span class="meta">normal/ · 9帧</span>
           <span class="badge ready">已就绪</span>
         </button>
-        <button class="action" id="btn-happy">
-          <span class="label">开心</span>
-          <span class="meta">happy/ · 16帧</span>
-          <span class="badge ready">已就绪</span>
-        </button>
         <button class="action" id="btn-wave">
           <span class="label">挥手打招呼</span>
           <span class="meta">wave/ · 12帧</span>
@@ -363,25 +358,25 @@
           <span class="meta">followup/ · 16帧</span>
           <span class="badge ready">已就绪</span>
         </button>
-        <button class="action" id="btn-lv2" disabled>
+        <button class="action" id="btn-lv2">
           <span class="label">升级 Lv.2</span>
-          <span class="meta">lv2/</span>
-          <span class="badge pending">未提供</span>
+          <span class="meta">levelup/ · 16帧</span>
+          <span class="badge ready">撒花</span>
         </button>
-        <button class="action" id="btn-lv3" disabled>
+        <button class="action" id="btn-lv3">
           <span class="label">升级 Lv.3</span>
-          <span class="meta">lv3/</span>
-          <span class="badge pending">未提供</span>
+          <span class="meta">levelup/ · 16帧</span>
+          <span class="badge ready">撒花</span>
         </button>
-        <button class="action" id="btn-lv4" disabled>
+        <button class="action" id="btn-lv4">
           <span class="label">升级 Lv.4</span>
-          <span class="meta">lv4/</span>
-          <span class="badge pending">未提供</span>
+          <span class="meta">levelup/ · 16帧</span>
+          <span class="badge ready">撒花</span>
         </button>
-        <button class="action" id="btn-lv5" disabled>
+        <button class="action" id="btn-lv5">
           <span class="label">升级 Lv.5</span>
-          <span class="meta">lv5/</span>
-          <span class="badge pending">未提供</span>
+          <span class="meta">levelup/ · 16帧</span>
+          <span class="badge ready">撒花</span>
         </button>
         <button class="action" id="btn-crosslink">
           <span class="label">跨学科同源</span>
@@ -427,14 +422,13 @@
       </thead>
       <tbody>
         <tr><td class="key">normal</td><td>无操作满3分钟自动触发一次，其余时间静止</td><td class="frames">9</td><td><span class="badge ready">已就绪</span></td></tr>
-        <tr><td class="key">happy</td><td>用户互动 / 完成任务后</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">wave</td><td>启动 / 用户返回时</td><td class="frames">12</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">idea</td><td>提出建议 / 有新想法时</td><td class="frames">12</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">followup</td><td>用户追问细节 / 深入交流时</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
-        <tr><td class="key">lv2</td><td>升到等级2时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
-        <tr><td class="key">lv3</td><td>升到等级3时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
-        <tr><td class="key">lv4</td><td>升到等级4时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
-        <tr><td class="key">lv5</td><td>升到等级5时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">lv2</td><td>升到等级2时触发撒花动画</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
+        <tr><td class="key">lv3</td><td>升到等级3时触发撒花动画</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
+        <tr><td class="key">lv4</td><td>升到等级4时触发撒花动画</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
+        <tr><td class="key">lv5</td><td>升到等级5时触发撒花动画</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">crosslink</td><td>发现跨学科知识关联时</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">savecard</td><td>存为知识卡片时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
         <tr><td class="key">mastered</td><td>复习考核判定已掌握时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
@@ -457,7 +451,7 @@
   const frameCounter = document.getElementById('frameCounter');
   const progressFill = document.getElementById('progressFill');
 
-  const LABELS = { normal: '待机', happy: '开心', wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问', crosslink: '跨学科同源' };
+  const LABELS = { normal: '待机', levelup: '升级撒花', wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问', crosslink: '跨学科同源' };
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const idleBtn = document.getElementById('btn-normal');
   const IDLE_DELAY_MS = 3 * 60 * 1000; // 无操作满3分钟才自动触发一次待机动作
@@ -520,7 +514,7 @@
   }
 
   idleBtn.addEventListener('click', () => playAction('normal', idleBtn));
-  document.getElementById('btn-happy').addEventListener('click', (e) => playAction('happy', e.currentTarget));
+  ['btn-lv2','btn-lv3','btn-lv4','btn-lv5'].forEach(id => document.getElementById(id).addEventListener('click', (e) => playAction('levelup', e.currentTarget)));
   document.getElementById('btn-wave').addEventListener('click', (e) => playAction('wave', e.currentTarget));
   document.getElementById('btn-idea').addEventListener('click', (e) => playAction('idea', e.currentTarget));
   document.getElementById('btn-followup').addEventListener('click', (e) => playAction('followup', e.currentTarget));
