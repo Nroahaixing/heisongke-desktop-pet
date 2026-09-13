@@ -1,0 +1,54 @@
+{
+  "description": "黑松克桌面宠物 - 动作/状态素材清单",
+  "actions": {
+    "normal": {
+      "label": "待机",
+      "trigger": "无操作时循环播放",
+      "frameCount": 0,
+      "path": "assets/normal/normal_*.png",
+      "status": "待补充"
+    },
+    "happy": {
+      "label": "开心",
+      "trigger": "用户互动 / 完成任务后触发",
+      "frameCount": 0,
+      "path": "assets/happy/happy_*.png",
+      "status": "待补充"
+    },
+    "shy": {
+      "label": "害羞",
+      "trigger": "被点击 / 特定对话触发",
+      "frameCount": 0,
+      "path": "assets/shy/shy_*.png",
+      "status": "待补充"
+    },
+    "surprised": {
+      "label": "惊讶",
+      "trigger": "突发事件 / 收到消息触发",
+      "frameCount": 0,
+      "path": "assets/surprised/surprised_*.png",
+      "status": "待补充"
+    },
+    "wave": {
+      "label": "挥手打招呼",
+      "trigger": "启动 / 用户返回时触发",
+      "frameCount": 12,
+      "path": "assets/wave/wave_*.png",
+      "status": "已就绪"
+    },
+    "idea": {
+      "label": "灵感/想法",
+      "trigger": "提出建议 / 有新想法时触发（头顶灯泡）",
+      "frameCount": 12,
+      "path": "assets/idea/idea_*.png",
+      "status": "已就绪"
+    },
+    "followup": {
+      "label": "深入追问",
+      "trigger": "用户追问细节 / 深入交流时触发（戴眼镜+问号）",
+      "frameCount": 16,
+      "path": "assets/followup/followup_*.png",
+      "status": "已就绪"
+    }
+  }
+}

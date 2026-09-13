@@ -1,0 +1,439 @@
+<title>桌宠动作播放器</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #E7E9E4;
+    --surface: #FBF9F4;
+    --surface-2: #F0EDE4;
+    --ink: #211F1C;
+    --ink-soft: #625D54;
+    --line: #D8D3C6;
+    --accent: #D9718C;
+    --accent-ink: #6E2F3D;
+    --amber: #E6A93B;
+    --ready-bg: #E6EFE4;
+    --ready-ink: #3E6B45;
+    --pending-bg: #EFEAE2;
+    --pending-ink: #8B8478;
+    --shadow: 0 1px 2px rgba(33,31,28,0.06), 0 8px 24px -12px rgba(33,31,28,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #17181A;
+      --surface: #212226;
+      --surface-2: #26272B;
+      --ink: #EEEAE2;
+      --ink-soft: #A9A399;
+      --line: #35363A;
+      --accent: #E58AA1;
+      --accent-ink: #FBE1E7;
+      --amber: #E9B559;
+      --ready-bg: #223027;
+      --ready-ink: #8FCB99;
+      --pending-bg: #2A2B2E;
+      --pending-ink: #83807A;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #17181A;
+    --surface: #212226;
+    --surface-2: #26272B;
+    --ink: #EEEAE2;
+    --ink-soft: #A9A399;
+    --line: #35363A;
+    --accent: #E58AA1;
+    --accent-ink: #FBE1E7;
+    --amber: #E9B559;
+    --ready-bg: #223027;
+    --ready-ink: #8FCB99;
+    --pending-bg: #2A2B2E;
+    --pending-ink: #83807A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Inter", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    padding-inline: 20px;
+    padding-block: 40px;
+    display:flex;
+    justify-content:center;
+  }
+  .page{
+    width:100%;
+    max-width: 720px;
+    display:flex;
+    flex-direction:column;
+    gap:28px;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color: var(--accent-ink);
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:4px 10px;
+    border-radius:999px;
+    width:fit-content;
+  }
+  h1{
+    font-family:"Baloo 2", "PingFang SC", sans-serif;
+    font-size: clamp(28px, 5vw, 38px);
+    font-weight:700;
+    margin: 10px 0 4px;
+    text-wrap: balance;
+  }
+  .lede{
+    color: var(--ink-soft);
+    font-size:15px;
+    line-height:1.6;
+    max-width: 56ch;
+  }
+  .lede code{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:13px;
+    background: var(--surface-2);
+    padding:1px 6px;
+    border-radius:5px;
+  }
+
+  .stage-card{
+    background: var(--surface);
+    border:1px solid var(--line);
+    border-radius:20px;
+    box-shadow: var(--shadow);
+    padding: 28px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+  }
+  .stage{
+    position:relative;
+    width: 100%;
+    max-width: 420px;
+    height: 440px;
+    border-radius:16px;
+    background:
+      radial-gradient(closest-side, color-mix(in srgb, var(--accent) 10%, transparent), transparent 72%),
+      var(--surface-2);
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .stage img{
+    width: 362px;
+    height: auto;
+    max-width: 100%;
+    image-rendering:-webkit-optimize-contrast;
+  }
+  .status-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:13px;
+    color: var(--ink-soft);
+  }
+  .status-row .state-name{
+    font-family:"Baloo 2", sans-serif;
+    font-size:16px;
+    color: var(--ink);
+  }
+  .dot{
+    width:6px;height:6px;border-radius:50%;
+    background: var(--accent);
+  }
+  .progress{
+    width: 100%;
+    max-width: 420px;
+    height:4px;
+    border-radius:999px;
+    background: var(--surface-2);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:8.33%;
+    background: var(--accent);
+    transition: width 90ms linear;
+  }
+
+  .actions{
+    display:flex;
+    justify-content:center;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap:10px;
+    width:100%;
+  }
+  @media (max-width: 480px){
+    .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+  button.action{
+    font-family:"Inter", sans-serif;
+    font-size:14px;
+    font-weight:600;
+    padding:10px 12px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--ink);
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:2px;
+    transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+  }
+  button.action .label{ font-size:14px; }
+  button.action .meta{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11px;
+    color: var(--ink-soft);
+  }
+  button.action:hover:not(:disabled){
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  button.action:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  button.action.is-playing{
+    background: color-mix(in srgb, var(--accent) 14%, var(--surface-2));
+    border-color: var(--accent);
+  }
+  button.action:disabled{
+    cursor:not-allowed;
+    opacity:0.55;
+  }
+  .badge{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:10px;
+    letter-spacing:0.03em;
+    padding:1px 6px;
+    border-radius:999px;
+    align-self:flex-end;
+  }
+  .badge.ready{ background: var(--ready-bg); color: var(--ready-ink); }
+  .badge.pending{ background: var(--pending-bg); color: var(--pending-ink); }
+
+  .manifest{
+    background: var(--surface);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .manifest h2{
+    font-family:"Baloo 2", sans-serif;
+    font-size:16px;
+    margin:0 0 4px;
+  }
+  .manifest .sub{
+    color: var(--ink-soft);
+    font-size:13px;
+    margin:0 0 14px;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+  }
+  th{
+    text-align:left;
+    font-weight:600;
+    color: var(--ink-soft);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  td{
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    vertical-align:middle;
+  }
+  tr:last-child td{ border-bottom:none; }
+  td.key{
+    font-family:"IBM Plex Mono", monospace;
+    color: var(--ink);
+  }
+  td.frames{
+    font-family:"IBM Plex Mono", monospace;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .manifest-wrap{ overflow-x:auto; }
+
+  footer{
+    font-size:12px;
+    color: var(--ink-soft);
+    text-align:center;
+    line-height:1.6;
+  }
+</style>
+
+<div class="page">
+  <div>
+    <span class="eyebrow">动作框架演示 · 黑松克</span>
+    <h1>桌宠动作播放器</h1>
+    <p class="lede">
+      每个动作是一组按 <code>状态_序号.png</code> 命名的连续帧，框架按 <code>actions.json</code>
+      里登记的帧数和路径顺序播放。目前「挥手」「灵感」「深入追问」三个状态配好了素材，其余四个是占位。
+    </p>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage">
+      <img id="sprite" alt="桌宠动作帧">
+    </div>
+    <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="status-row">
+      <span class="dot"></span>
+      <span class="state-name" id="stateName">待机</span>
+      <span id="frameCounter">wave · 01/12</span>
+    </div>
+
+    <div class="actions">
+      <div class="grid">
+        <button class="action" id="btn-normal" disabled>
+          <span class="label">待机</span>
+          <span class="meta">normal/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-happy" disabled>
+          <span class="label">开心</span>
+          <span class="meta">happy/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-shy" disabled>
+          <span class="label">害羞</span>
+          <span class="meta">shy/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-surprised" disabled>
+          <span class="label">惊讶</span>
+          <span class="meta">surprised/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-wave">
+          <span class="label">挥手打招呼</span>
+          <span class="meta">wave/ · 12帧</span>
+          <span class="badge ready">已就绪</span>
+        </button>
+        <button class="action" id="btn-idea">
+          <span class="label">灵感想法</span>
+          <span class="meta">idea/ · 12帧</span>
+          <span class="badge ready">已就绪</span>
+        </button>
+        <button class="action" id="btn-followup">
+          <span class="label">深入追问</span>
+          <span class="meta">followup/ · 16帧</span>
+          <span class="badge ready">已就绪</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="manifest">
+    <h2>动作清单（actions.json）</h2>
+    <p class="sub">框架读取的就是这张表 —— 加新动作只要往对应文件夹丢图、在这里补一行。</p>
+    <div class="manifest-wrap">
+    <table>
+      <thead>
+        <tr><th>状态</th><th>触发时机</th><th>帧数</th><th>状态</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="key">normal</td><td>无操作时循环播放</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">happy</td><td>用户互动 / 完成任务后</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">shy</td><td>被点击 / 特定对话触发</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">surprised</td><td>突发事件 / 收到消息</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">wave</td><td>启动 / 用户返回时</td><td class="frames">12</td><td><span class="badge ready">已就绪</span></td></tr>
+        <tr><td class="key">idea</td><td>提出建议 / 有新想法时</td><td class="frames">12</td><td><span class="badge ready">已就绪</span></td></tr>
+        <tr><td class="key">followup</td><td>用户追问细节 / 深入交流时</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer>点按「挥手打招呼」或「灵感想法」播放对应帧序列，播完自动回到待机帧。</footer>
+</div>
+
+<script>
+  const FRAMES = __FRAMES_JSON__;
+
+  const sprite = document.getElementById('sprite');
+  const stateName = document.getElementById('stateName');
+  const frameCounter = document.getElementById('frameCounter');
+  const progressFill = document.getElementById('progressFill');
+
+  const LABELS = { wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问' };
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let currentTimer = null;
+  let activeBtn = null;
+
+  function setFrame(state, idx, total){
+    sprite.src = FRAMES[state][idx];
+    frameCounter.textContent = `${state} · ${String(idx+1).padStart(2,'0')}/${total}`;
+    progressFill.style.width = `${((idx+1)/total)*100}%`;
+  }
+
+  function idle(){
+    setFrame('wave', 0, FRAMES.wave.length);
+    stateName.textContent = '待机（占位：wave 第1帧）';
+  }
+
+  function playAction(state, btn){
+    if (currentTimer) clearInterval(currentTimer);
+    if (activeBtn) activeBtn.classList.remove('is-playing');
+    activeBtn = btn;
+    btn.classList.add('is-playing');
+    stateName.textContent = LABELS[state];
+
+    const frames = FRAMES[state];
+    const total = frames.length;
+
+    if (reduceMotion){
+      setFrame(state, total - 1, total);
+      btn.classList.remove('is-playing');
+      setTimeout(idle, 500);
+      return;
+    }
+
+    let i = 0;
+    setFrame(state, i, total);
+    currentTimer = setInterval(() => {
+      i++;
+      if (i >= total){
+        clearInterval(currentTimer);
+        currentTimer = null;
+        btn.classList.remove('is-playing');
+        idle();
+        return;
+      }
+      setFrame(state, i, total);
+    }, 182);
+  }
+
+  document.getElementById('btn-wave').addEventListener('click', (e) => playAction('wave', e.currentTarget));
+  document.getElementById('btn-idea').addEventListener('click', (e) => playAction('idea', e.currentTarget));
+  document.getElementById('btn-followup').addEventListener('click', (e) => playAction('followup', e.currentTarget));
+
+  idle();
+</script>

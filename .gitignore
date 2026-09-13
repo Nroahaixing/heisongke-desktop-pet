@@ -1,0 +1,11 @@
+.DS_Store
+
+# 旧版原始素材（灵感状态换素材前的版本，内容已过时，不发布）
+挥手/
+zhihu-pet-new-concept-variable-canvas/
+
+# wave.zip 被自动解压出来的重复文件夹，assets/wave/ 才是正式版本
+/wave/
+
+# 步骤截图，仅本地参考
+微信图片_*.png
