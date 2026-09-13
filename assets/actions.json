@@ -81,9 +81,9 @@
     "crosslink": {
       "label": "跨学科同源",
       "trigger": "系统发现跨学科知识关联时触发",
-      "frameCount": 0,
+      "frameCount": 16,
       "path": "assets/crosslink/crosslink_*.png",
-      "status": "待补充"
+      "status": "已就绪"
     },
     "savecard": {
       "label": "存为知识卡片",

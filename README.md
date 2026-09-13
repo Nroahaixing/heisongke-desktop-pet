@@ -14,7 +14,7 @@ assets/
 ├── idea/         # 灵感/想法（头顶灯泡）· 12帧
 ├── followup/     # 深入追问（戴眼镜+问号）· 16帧
 ├── lv2/ ~ lv5/   # 升级 Lv.2 ~ Lv.5（占位，还没素材）
-├── crosslink/    # 跨学科同源（占位）
+├── crosslink/    # 跨学科同源 · 16帧
 ├── savecard/     # 存为知识卡片（占位）
 ├── mastered/     # 复习掌握（占位）
 ├── forgotten/    # 复习遗忘/模糊（占位）
@@ -27,7 +27,7 @@ demo/
 ├── gen_demo.py          # 读取 assets/ 下的图片、生成可直接打开的 demo/pet_demo.html
 └── pet_demo.html        # 生成好的静态演示页，用浏览器直接打开即可播放动作
 
-wave.zip / idea.zip / followup.zip   # 对应状态的图片打包，文件名和内部图片名统一按 <状态>_<序号>.png 命名
+wave.zip / idea.zip / followup.zip / crosslink.zip   # 对应状态的图片打包，文件名和内部图片名统一按 <状态>_<序号>.png 命名
 ```
 
 ## 命名规则
@@ -47,13 +47,20 @@ cd demo
 python3 gen_demo.py
 ```
 
+### 发布到公网（GitHub Pages）
+
+仓库已附带 `.github/workflows/deploy-pages.yml`。推送到 `main` 后，GitHub Actions 会自动把 `demo/pet_demo.html` 发布为站点首页。
+
+首次使用时，在仓库的 **Settings → Pages** 将 **Source** 设为 **GitHub Actions**。部署完成后访问：
+
+`https://nroahaixing.github.io/heisongke-desktop-pet/`
+
 ## 目前进度
 
-- ✅ normal（待机，无操作满3分钟自动触发一次，其余时间显示静止帧）、wave（挥手打招呼）、idea（灵感/想法）、followup（深入追问）四个状态已配好素材
+- ✅ normal（待机，无操作满3分钟自动触发一次，其余时间显示静止帧）、wave（挥手打招呼）、idea（灵感/想法）、followup（深入追问）、crosslink（跨学科同源）五个状态已配好素材
 - ⬜ 基础表情：happy（开心）/ shy（害羞）/ surprised（惊讶）
 - ⬜ 升级动作：lv2 ~ lv5（角色升到对应等级时触发一次）
 - ⬜ 学习类动作（对接心潮记忆笔记应用的事件）：
-  - crosslink 跨学科同源 — 发现跨学科知识关联时
   - savecard 存为知识卡片 — 内容存成知识卡片时
   - mastered 复习掌握 — 复习考核判定已掌握时
   - forgotten 复习遗忘/模糊 — 复习考核判定遗忘或模糊时

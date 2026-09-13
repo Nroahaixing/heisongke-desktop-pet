@@ -17,6 +17,7 @@ data = {
     "wave": load_frames("wave", 12),
     "idea": load_frames("idea", 12),
     "followup": load_frames("followup", 16),
+    "crosslink": load_frames("crosslink", 16),
 }
 
 frames_json = json.dumps(data)

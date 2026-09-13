@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>桌宠动作播放器</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,7 +71,7 @@
   }
   .page{
     width:100%;
-    max-width: 720px;
+    max-width: 1120px;
     display:flex;
     flex-direction:column;
     gap:28px;
@@ -112,12 +117,18 @@
     border-radius:20px;
     box-shadow: var(--shadow);
     padding: 28px;
-    display:flex;
-    flex-direction:column;
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "stage actions"
+      "progress actions"
+      "status actions";
     align-items:center;
+    column-gap:28px;
     gap:18px;
   }
   .stage{
+    grid-area:stage;
     position:relative;
     width: 100%;
     max-width: 420px;
@@ -138,6 +149,8 @@
     image-rendering:-webkit-optimize-contrast;
   }
   .status-row{
+    grid-area:status;
+    justify-self:center;
     display:flex;
     align-items:center;
     gap:10px;
@@ -155,6 +168,8 @@
     background: var(--accent);
   }
   .progress{
+    grid-area:progress;
+    justify-self:center;
     width: 100%;
     max-width: 420px;
     height:4px;
@@ -170,14 +185,25 @@
   }
 
   .actions{
+    grid-area:actions;
+    width:100%;
+    align-self:stretch;
     display:flex;
-    justify-content:center;
+    align-items:center;
   }
   .grid{
     display:grid;
-    grid-template-columns: repeat(3, minmax(0,1fr));
+    grid-template-columns: repeat(2, minmax(0,1fr));
     gap:10px;
     width:100%;
+  }
+  @media (max-width: 680px){
+    .page{ max-width:720px; }
+    .stage-card{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
   }
   @media (max-width: 480px){
     .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -287,14 +313,15 @@
     line-height:1.6;
   }
 </style>
-
+</head>
+<body>
 <div class="page">
   <div>
     <span class="eyebrow">动作框架演示 · 黑松克</span>
     <h1>桌宠动作播放器</h1>
     <p class="lede">
       每个动作是一组按 <code>状态_序号.png</code> 命名的连续帧，框架按 <code>actions.json</code>
-      里登记的帧数和路径顺序播放。目前「挥手」「灵感」「深入追问」三个状态配好了素材，其余状态（基础表情、升级 Lv.2~5、学习类动作）都是占位，等素材到位随时能接上。
+      里登记的帧数和路径顺序播放。目前「挥手」「灵感」「深入追问」「跨学科同源」等状态已配好素材，其余状态等素材到位即可接入。
     </p>
   </div>
 
@@ -366,10 +393,10 @@
           <span class="meta">lv5/</span>
           <span class="badge pending">未提供</span>
         </button>
-        <button class="action" id="btn-crosslink" disabled>
+        <button class="action" id="btn-crosslink">
           <span class="label">跨学科同源</span>
-          <span class="meta">crosslink/</span>
-          <span class="badge pending">未提供</span>
+          <span class="meta">crosslink/ · 16帧</span>
+          <span class="badge ready">已就绪</span>
         </button>
         <button class="action" id="btn-savecard" disabled>
           <span class="label">存为知识卡片</span>
@@ -420,7 +447,7 @@
         <tr><td class="key">lv3</td><td>升到等级3时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
         <tr><td class="key">lv4</td><td>升到等级4时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
         <tr><td class="key">lv5</td><td>升到等级5时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
-        <tr><td class="key">crosslink</td><td>发现跨学科知识关联时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">crosslink</td><td>发现跨学科知识关联时</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">savecard</td><td>存为知识卡片时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
         <tr><td class="key">mastered</td><td>复习考核判定已掌握时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
         <tr><td class="key">forgotten</td><td>复习考核判定遗忘/模糊时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
@@ -442,7 +469,7 @@
   const frameCounter = document.getElementById('frameCounter');
   const progressFill = document.getElementById('progressFill');
 
-  const LABELS = { normal: '待机', wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问' };
+  const LABELS = { normal: '待机', wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问', crosslink: '跨学科同源' };
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const idleBtn = document.getElementById('btn-normal');
   const IDLE_DELAY_MS = 3 * 60 * 1000; // 无操作满3分钟才自动触发一次待机动作
@@ -508,7 +535,10 @@
   document.getElementById('btn-wave').addEventListener('click', (e) => playAction('wave', e.currentTarget));
   document.getElementById('btn-idea').addEventListener('click', (e) => playAction('idea', e.currentTarget));
   document.getElementById('btn-followup').addEventListener('click', (e) => playAction('followup', e.currentTarget));
+  document.getElementById('btn-crosslink').addEventListener('click', (e) => playAction('crosslink', e.currentTarget));
 
   restFrame();
   scheduleAutoIdle();
 </script>
+</body>
+</html>
