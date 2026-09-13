@@ -294,7 +294,7 @@
     <h1>桌宠动作播放器</h1>
     <p class="lede">
       每个动作是一组按 <code>状态_序号.png</code> 命名的连续帧，框架按 <code>actions.json</code>
-      里登记的帧数和路径顺序播放。目前「挥手」「灵感」「深入追问」三个状态配好了素材，其余四个是占位。
+      里登记的帧数和路径顺序播放。目前「挥手」「灵感」「深入追问」三个状态配好了素材，其余状态（基础表情、升级 Lv.2~5、学习类动作）都是占位，等素材到位随时能接上。
     </p>
   </div>
 
@@ -346,6 +346,56 @@
           <span class="meta">followup/ · 16帧</span>
           <span class="badge ready">已就绪</span>
         </button>
+        <button class="action" id="btn-lv2" disabled>
+          <span class="label">升级 Lv.2</span>
+          <span class="meta">lv2/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-lv3" disabled>
+          <span class="label">升级 Lv.3</span>
+          <span class="meta">lv3/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-lv4" disabled>
+          <span class="label">升级 Lv.4</span>
+          <span class="meta">lv4/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-lv5" disabled>
+          <span class="label">升级 Lv.5</span>
+          <span class="meta">lv5/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-crosslink" disabled>
+          <span class="label">跨学科同源</span>
+          <span class="meta">crosslink/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-savecard" disabled>
+          <span class="label">存为知识卡片</span>
+          <span class="meta">savecard/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-mastered" disabled>
+          <span class="label">复习掌握</span>
+          <span class="meta">mastered/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-forgotten" disabled>
+          <span class="label">复习遗忘/模糊</span>
+          <span class="meta">forgotten/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-newnote" disabled>
+          <span class="label">新建笔记</span>
+          <span class="meta">newnote/</span>
+          <span class="badge pending">未提供</span>
+        </button>
+        <button class="action" id="btn-newbook" disabled>
+          <span class="label">整理书架/新建书籍</span>
+          <span class="meta">newbook/</span>
+          <span class="badge pending">未提供</span>
+        </button>
       </div>
     </div>
   </div>
@@ -366,6 +416,16 @@
         <tr><td class="key">wave</td><td>启动 / 用户返回时</td><td class="frames">12</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">idea</td><td>提出建议 / 有新想法时</td><td class="frames">12</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">followup</td><td>用户追问细节 / 深入交流时</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
+        <tr><td class="key">lv2</td><td>升到等级2时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">lv3</td><td>升到等级3时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">lv4</td><td>升到等级4时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">lv5</td><td>升到等级5时触发一次</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">crosslink</td><td>发现跨学科知识关联时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">savecard</td><td>存为知识卡片时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">mastered</td><td>复习考核判定已掌握时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">forgotten</td><td>复习考核判定遗忘/模糊时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">newnote</td><td>新建笔记时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">newbook</td><td>整理书架 / 新建书籍时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
       </tbody>
     </table>
     </div>

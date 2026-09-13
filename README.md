@@ -13,6 +13,13 @@ assets/
 ├── wave/         # 挥手打招呼 · 12帧
 ├── idea/         # 灵感/想法（头顶灯泡）· 12帧
 ├── followup/     # 深入追问（戴眼镜+问号）· 16帧
+├── lv2/ ~ lv5/   # 升级 Lv.2 ~ Lv.5（占位，还没素材）
+├── crosslink/    # 跨学科同源（占位）
+├── savecard/     # 存为知识卡片（占位）
+├── mastered/     # 复习掌握（占位）
+├── forgotten/    # 复习遗忘/模糊（占位）
+├── newnote/      # 新建笔记（占位）
+├── newbook/      # 整理书架/新建书籍（占位）
 └── actions.json  # 动作清单：每个状态的中文名、触发时机、帧数、状态
 
 demo/
@@ -43,4 +50,14 @@ python3 gen_demo.py
 ## 目前进度
 
 - ✅ wave（挥手打招呼）、idea（灵感/想法）、followup（深入追问）三个状态已配好素材
-- ⬜ normal / happy / shy / surprised 四个状态还是占位，等素材到位后照上面步骤接入
+- ⬜ 基础表情：normal（待机）/ happy（开心）/ shy（害羞）/ surprised（惊讶）
+- ⬜ 升级动作：lv2 ~ lv5（角色升到对应等级时触发一次）
+- ⬜ 学习类动作（对接心潮记忆笔记应用的事件）：
+  - crosslink 跨学科同源 — 发现跨学科知识关联时
+  - savecard 存为知识卡片 — 内容存成知识卡片时
+  - mastered 复习掌握 — 复习考核判定已掌握时
+  - forgotten 复习遗忘/模糊 — 复习考核判定遗忘或模糊时
+  - newnote 新建笔记 — 新建一篇笔记时
+  - newbook 整理书架/新建书籍 — 整理书架或新建书籍时
+
+以上占位状态都已经在 `assets/actions.json` 里登记好（`frameCount: 0`，`status: 待补充`），素材到位后按「命名规则」放图、把 `frameCount`/`status` 改掉即可。
