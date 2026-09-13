@@ -7,5 +7,8 @@ zhihu-pet-new-concept-variable-canvas/
 # wave.zip 被自动解压出来的重复文件夹，assets/wave/ 才是正式版本
 /wave/
 
+# 原始素材来源文件夹，已整理进 assets/normal/
+/待机/
+
 # 步骤截图，仅本地参考
 微信图片_*.png

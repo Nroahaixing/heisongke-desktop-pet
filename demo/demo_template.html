@@ -306,15 +306,15 @@
     <div class="status-row">
       <span class="dot"></span>
       <span class="state-name" id="stateName">待机</span>
-      <span id="frameCounter">wave · 01/12</span>
+      <span id="frameCounter">normal · 01/09</span>
     </div>
 
     <div class="actions">
       <div class="grid">
-        <button class="action" id="btn-normal" disabled>
+        <button class="action" id="btn-normal">
           <span class="label">待机</span>
-          <span class="meta">normal/</span>
-          <span class="badge pending">未提供</span>
+          <span class="meta">normal/ · 9帧</span>
+          <span class="badge ready">已就绪</span>
         </button>
         <button class="action" id="btn-happy" disabled>
           <span class="label">开心</span>
@@ -409,7 +409,7 @@
         <tr><th>状态</th><th>触发时机</th><th>帧数</th><th>状态</th></tr>
       </thead>
       <tbody>
-        <tr><td class="key">normal</td><td>无操作时循环播放</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">normal</td><td>无操作满3分钟自动触发一次，其余时间静止</td><td class="frames">9</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">happy</td><td>用户互动 / 完成任务后</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
         <tr><td class="key">shy</td><td>被点击 / 特定对话触发</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
         <tr><td class="key">surprised</td><td>突发事件 / 收到消息</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
@@ -431,7 +431,7 @@
     </div>
   </div>
 
-  <footer>点按「挥手打招呼」或「灵感想法」播放对应帧序列，播完自动回到待机帧。</footer>
+  <footer>「待机」平时是静止帧，无操作满3分钟会自动播放一次；也可以点按钮立即预览。其他动作点按钮播放对应帧序列，播完自动回到待机静止帧，并重新计时。</footer>
 </div>
 
 <script>
@@ -442,11 +442,14 @@
   const frameCounter = document.getElementById('frameCounter');
   const progressFill = document.getElementById('progressFill');
 
-  const LABELS = { wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问' };
+  const LABELS = { normal: '待机', wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问' };
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const idleBtn = document.getElementById('btn-normal');
+  const IDLE_DELAY_MS = 3 * 60 * 1000; // 无操作满3分钟才自动触发一次待机动作
 
   let currentTimer = null;
   let activeBtn = null;
+  let autoIdleTimer = null;
 
   function setFrame(state, idx, total){
     sprite.src = FRAMES[state][idx];
@@ -454,16 +457,27 @@
     progressFill.style.width = `${((idx+1)/total)*100}%`;
   }
 
-  function idle(){
-    setFrame('wave', 0, FRAMES.wave.length);
-    stateName.textContent = '待机（占位：wave 第1帧）';
+  function setActive(btn){
+    if (activeBtn && activeBtn !== btn) activeBtn.classList.remove('is-playing');
+    activeBtn = btn;
+    if (btn) btn.classList.add('is-playing');
+  }
+
+  function scheduleAutoIdle(){
+    if (autoIdleTimer) clearTimeout(autoIdleTimer);
+    autoIdleTimer = setTimeout(() => playAction('normal', idleBtn), IDLE_DELAY_MS);
+  }
+
+  function restFrame(){
+    setActive(null);
+    stateName.textContent = LABELS.normal;
+    setFrame('normal', 0, FRAMES.normal.length);
   }
 
   function playAction(state, btn){
+    if (autoIdleTimer){ clearTimeout(autoIdleTimer); autoIdleTimer = null; }
     if (currentTimer) clearInterval(currentTimer);
-    if (activeBtn) activeBtn.classList.remove('is-playing');
-    activeBtn = btn;
-    btn.classList.add('is-playing');
+    setActive(btn);
     stateName.textContent = LABELS[state];
 
     const frames = FRAMES[state];
@@ -471,8 +485,7 @@
 
     if (reduceMotion){
       setFrame(state, total - 1, total);
-      btn.classList.remove('is-playing');
-      setTimeout(idle, 500);
+      setTimeout(() => { restFrame(); scheduleAutoIdle(); }, 500);
       return;
     }
 
@@ -483,17 +496,19 @@
       if (i >= total){
         clearInterval(currentTimer);
         currentTimer = null;
-        btn.classList.remove('is-playing');
-        idle();
+        restFrame();
+        scheduleAutoIdle();
         return;
       }
       setFrame(state, i, total);
     }, 182);
   }
 
+  idleBtn.addEventListener('click', () => playAction('normal', idleBtn));
   document.getElementById('btn-wave').addEventListener('click', (e) => playAction('wave', e.currentTarget));
   document.getElementById('btn-idea').addEventListener('click', (e) => playAction('idea', e.currentTarget));
   document.getElementById('btn-followup').addEventListener('click', (e) => playAction('followup', e.currentTarget));
 
-  idle();
+  restFrame();
+  scheduleAutoIdle();
 </script>

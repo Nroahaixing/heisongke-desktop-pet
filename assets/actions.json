@@ -3,10 +3,10 @@
   "actions": {
     "normal": {
       "label": "待机",
-      "trigger": "无操作时循环播放",
-      "frameCount": 0,
+      "trigger": "无操作期间，每隔3分钟自动触发一次；其余时间显示静止帧",
+      "frameCount": 9,
       "path": "assets/normal/normal_*.png",
-      "status": "待补充"
+      "status": "已就绪"
     },
     "happy": {
       "label": "开心",

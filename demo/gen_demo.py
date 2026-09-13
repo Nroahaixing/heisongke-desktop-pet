@@ -13,6 +13,7 @@ def load_frames(state, count):
     return frames
 
 data = {
+    "normal": load_frames("normal", 9),
     "wave": load_frames("wave", 12),
     "idea": load_frames("idea", 12),
     "followup": load_frames("followup", 16),
