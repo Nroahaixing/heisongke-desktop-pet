@@ -8,27 +8,6 @@
       "path": "assets/normal/normal_*.png",
       "status": "已就绪"
     },
-    "happy": {
-      "label": "开心",
-      "trigger": "用户互动 / 完成任务后触发",
-      "frameCount": 0,
-      "path": "assets/happy/happy_*.png",
-      "status": "待补充"
-    },
-    "shy": {
-      "label": "害羞",
-      "trigger": "被点击 / 特定对话触发",
-      "frameCount": 0,
-      "path": "assets/shy/shy_*.png",
-      "status": "待补充"
-    },
-    "surprised": {
-      "label": "惊讶",
-      "trigger": "突发事件 / 收到消息触发",
-      "frameCount": 0,
-      "path": "assets/surprised/surprised_*.png",
-      "status": "待补充"
-    },
     "wave": {
       "label": "挥手打招呼",
       "trigger": "启动 / 用户返回时触发",
