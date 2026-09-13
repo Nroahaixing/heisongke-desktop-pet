@@ -14,6 +14,7 @@ def load_frames(state, count):
 
 data = {
     "normal": load_frames("normal", 9),
+    "happy": load_frames("happy", 16),
     "wave": load_frames("wave", 12),
     "idea": load_frames("idea", 12),
     "followup": load_frames("followup", 16),

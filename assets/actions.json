@@ -8,6 +8,13 @@
       "path": "assets/normal/normal_*.png",
       "status": "已就绪"
     },
+    "happy": {
+      "label": "开心",
+      "trigger": "用户互动 / 完成任务后触发",
+      "frameCount": 16,
+      "path": "assets/happy/happy_*.png",
+      "status": "已就绪"
+    },
     "wave": {
       "label": "挥手打招呼",
       "trigger": "启动 / 用户返回时触发",

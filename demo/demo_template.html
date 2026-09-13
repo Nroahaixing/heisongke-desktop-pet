@@ -343,6 +343,11 @@
           <span class="meta">normal/ · 9帧</span>
           <span class="badge ready">已就绪</span>
         </button>
+        <button class="action" id="btn-happy">
+          <span class="label">开心</span>
+          <span class="meta">happy/ · 16帧</span>
+          <span class="badge ready">已就绪</span>
+        </button>
         <button class="action" id="btn-wave">
           <span class="label">挥手打招呼</span>
           <span class="meta">wave/ · 12帧</span>
@@ -422,6 +427,7 @@
       </thead>
       <tbody>
         <tr><td class="key">normal</td><td>无操作满3分钟自动触发一次，其余时间静止</td><td class="frames">9</td><td><span class="badge ready">已就绪</span></td></tr>
+        <tr><td class="key">happy</td><td>用户互动 / 完成任务后</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">wave</td><td>启动 / 用户返回时</td><td class="frames">12</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">idea</td><td>提出建议 / 有新想法时</td><td class="frames">12</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">followup</td><td>用户追问细节 / 深入交流时</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
@@ -451,7 +457,7 @@
   const frameCounter = document.getElementById('frameCounter');
   const progressFill = document.getElementById('progressFill');
 
-  const LABELS = { normal: '待机', wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问', crosslink: '跨学科同源' };
+  const LABELS = { normal: '待机', happy: '开心', wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问', crosslink: '跨学科同源' };
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const idleBtn = document.getElementById('btn-normal');
   const IDLE_DELAY_MS = 3 * 60 * 1000; // 无操作满3分钟才自动触发一次待机动作
@@ -514,6 +520,7 @@
   }
 
   idleBtn.addEventListener('click', () => playAction('normal', idleBtn));
+  document.getElementById('btn-happy').addEventListener('click', (e) => playAction('happy', e.currentTarget));
   document.getElementById('btn-wave').addEventListener('click', (e) => playAction('wave', e.currentTarget));
   document.getElementById('btn-idea').addEventListener('click', (e) => playAction('idea', e.currentTarget));
   document.getElementById('btn-followup').addEventListener('click', (e) => playAction('followup', e.currentTarget));
