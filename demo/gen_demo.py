@@ -17,7 +17,7 @@ data = {
     "mastered": load_frames("mastered", 16),
     "forgotten": load_frames("forgotten", 16),
     "newnote": load_frames("newnote", 16),
-    "newbook": load_frames("newbook", 14),
+    "newbook": load_frames("newbook", 16),
 }
 
 frames_json = json.dumps(data)
