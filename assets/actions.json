@@ -74,9 +74,9 @@
     "mastered": {
       "label": "复习掌握",
       "trigger": "复习考核判定为已掌握时触发",
-      "frameCount": 0,
+      "frameCount": 16,
       "path": "assets/mastered/mastered_*.png",
-      "status": "待补充"
+      "status": "已就绪"
     },
     "forgotten": {
       "label": "复习遗忘/模糊",

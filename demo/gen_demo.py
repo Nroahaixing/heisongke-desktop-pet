@@ -20,6 +20,7 @@ data = {
     "followup": load_frames("followup", 16),
     "crosslink": load_frames("crosslink", 16),
     "savecard": load_frames("savecard", 18),
+    "mastered": load_frames("mastered", 16),
 }
 
 frames_json = json.dumps(data)

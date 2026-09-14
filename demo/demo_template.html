@@ -388,10 +388,10 @@
           <span class="meta">savecard/ · 18帧</span>
           <span class="badge ready">已就绪</span>
         </button>
-        <button class="action" id="btn-mastered" disabled>
+        <button class="action" id="btn-mastered">
           <span class="label">复习掌握</span>
-          <span class="meta">mastered/</span>
-          <span class="badge pending">未提供</span>
+          <span class="meta">mastered/ · 16帧</span>
+          <span class="badge ready">已就绪</span>
         </button>
         <button class="action" id="btn-forgotten" disabled>
           <span class="label">复习遗忘/模糊</span>
@@ -431,7 +431,7 @@
         <tr><td class="key">lv5</td><td>升到等级5时触发撒花动画</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">crosslink</td><td>发现跨学科知识关联时</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">savecard</td><td>存为知识卡片时</td><td class="frames">18</td><td><span class="badge ready">已就绪</span></td></tr>
-        <tr><td class="key">mastered</td><td>复习考核判定已掌握时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
+        <tr><td class="key">mastered</td><td>复习考核判定已掌握时</td><td class="frames">16</td><td><span class="badge ready">已就绪</span></td></tr>
         <tr><td class="key">forgotten</td><td>复习考核判定遗忘/模糊时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
         <tr><td class="key">newnote</td><td>新建笔记时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
         <tr><td class="key">newbook</td><td>整理书架 / 新建书籍时</td><td class="frames">0</td><td><span class="badge pending">待补充</span></td></tr>
@@ -451,7 +451,7 @@
   const frameCounter = document.getElementById('frameCounter');
   const progressFill = document.getElementById('progressFill');
 
-  const LABELS = { normal: '待机', levelup: '升级撒花', wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问', crosslink: '跨学科同源', savecard: '存为知识卡片' };
+  const LABELS = { normal: '待机', levelup: '升级撒花', wave: '挥手打招呼', idea: '灵感想法', followup: '深入追问', crosslink: '跨学科同源', savecard: '存为知识卡片', mastered: '复习考核掌握' };
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const idleBtn = document.getElementById('btn-normal');
   const IDLE_DELAY_MS = 3 * 60 * 1000; // 无操作满3分钟才自动触发一次待机动作
@@ -516,6 +516,7 @@
   idleBtn.addEventListener('click', () => playAction('normal', idleBtn));
   ['btn-lv2','btn-lv3','btn-lv4','btn-lv5'].forEach(id => document.getElementById(id).addEventListener('click', (e) => playAction('levelup', e.currentTarget)));
   document.getElementById('btn-savecard').addEventListener('click', (e) => playAction('savecard', e.currentTarget));
+  document.getElementById('btn-mastered').addEventListener('click', (e) => playAction('mastered', e.currentTarget));
   document.getElementById('btn-wave').addEventListener('click', (e) => playAction('wave', e.currentTarget));
   document.getElementById('btn-idea').addEventListener('click', (e) => playAction('idea', e.currentTarget));
   document.getElementById('btn-followup').addEventListener('click', (e) => playAction('followup', e.currentTarget));
