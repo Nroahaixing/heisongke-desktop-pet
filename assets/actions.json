@@ -95,7 +95,7 @@
     "newbook": {
       "label": "整理书架/新建书籍",
       "trigger": "用户整理书架或新建书籍时触发",
-      "frameCount": 16,
+      "frameCount": 15,
       "path": "assets/newbook/newbook_*.png",
       "status": "已就绪"
     }
