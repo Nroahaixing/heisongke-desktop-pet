@@ -459,6 +459,19 @@
   let currentTimer = null;
   let activeBtn = null;
   let autoIdleTimer = null;
+  const imageCache = new Map();
+
+  // 先缓存所有帧，避免切换 src 时网络延迟让画面停留在上一帧。
+  function preload(state){
+    if (!imageCache.has(state)) {
+      imageCache.set(state, Promise.all(FRAMES[state].map(src => new Promise(resolve => {
+        const img = new Image();
+        img.onload = img.onerror = () => resolve();
+        img.src = src;
+      }))));
+    }
+    return imageCache.get(state);
+  }
 
   function setFrame(state, idx, total){
     sprite.src = FRAMES[state][idx];
@@ -483,7 +496,7 @@
     setFrame('normal', 0, FRAMES.normal.length);
   }
 
-  function playAction(state, btn){
+  async function playAction(state, btn){
     if (autoIdleTimer){ clearTimeout(autoIdleTimer); autoIdleTimer = null; }
     if (currentTimer) clearInterval(currentTimer);
     setActive(btn);
@@ -491,6 +504,8 @@
 
     const frames = FRAMES[state];
     const total = frames.length;
+    await preload(state);
+    if (state !== 'normal' && activeBtn !== btn) return;
 
     if (reduceMotion){
       setFrame(state, total - 1, total);
