@@ -19,6 +19,7 @@ data = {
     "idea": load_frames("idea", 12),
     "followup": load_frames("followup", 16),
     "crosslink": load_frames("crosslink", 16),
+    "savecard": load_frames("savecard", 18),
 }
 
 frames_json = json.dumps(data)

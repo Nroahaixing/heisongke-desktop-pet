@@ -67,9 +67,9 @@
     "savecard": {
       "label": "存为知识卡片",
       "trigger": "用户把内容存成知识卡片时触发",
-      "frameCount": 0,
+      "frameCount": 18,
       "path": "assets/savecard/savecard_*.png",
-      "status": "待补充"
+      "status": "已就绪"
     },
     "mastered": {
       "label": "复习掌握",

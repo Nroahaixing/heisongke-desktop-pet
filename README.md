@@ -13,6 +13,7 @@ assets/
 ├── followup/     # 深入追问（戴眼镜+问号）· 16帧
 ├── lv2/ ~ lv5/   # 升级状态占位（共用 levelup 撒花动画）
 ├── crosslink/    # 跨学科同源 · 16帧
+├── savecard/     # 存为知识卡片 · 18帧
 ├── savecard/     # 存为知识卡片（占位）
 ├── mastered/     # 复习掌握（占位）
 ├── forgotten/    # 复习遗忘/模糊（占位）
@@ -55,9 +56,8 @@ python3 gen_demo.py
 
 ## 目前进度
 
-- ✅ normal（待机，无操作满3分钟自动触发一次，其余时间显示静止帧）、升级撒花（Lv.2~Lv.5 共用）、wave（挥手打招呼）、idea（灵感/想法）、followup（深入追问）、crosslink（跨学科同源）六类状态已配好素材
+- ✅ normal（待机，无操作满3分钟自动触发一次，其余时间显示静止帧）、升级撒花（Lv.2~Lv.5 共用）、wave（挥手打招呼）、idea（灵感/想法）、followup（深入追问）、crosslink（跨学科同源）、savecard（存为知识卡片）七类状态已配好素材
 - ⬜ 学习类动作（对接心潮记忆笔记应用的事件）：
-  - savecard 存为知识卡片 — 内容存成知识卡片时
   - mastered 复习掌握 — 复习考核判定已掌握时
   - forgotten 复习遗忘/模糊 — 复习考核判定遗忘或模糊时
   - newnote 新建笔记 — 新建一篇笔记时
