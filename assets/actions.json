@@ -88,7 +88,7 @@
     "newnote": {
       "label": "新建笔记",
       "trigger": "用户新建一篇笔记时触发",
-      "frameCount": 10,
+      "frameCount": 16,
       "path": "assets/newnote/newnote_*.png",
       "status": "已就绪"
     },
