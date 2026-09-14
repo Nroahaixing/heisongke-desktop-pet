@@ -41,6 +41,58 @@ wave.zip / idea.zip / followup.zip / crosslink.zip   # 对应状态的图片打�
 
 ## 查看演示
 
+## 嵌入主体项目
+
+仓库现在同时提供可直接嵌入任意 Web 页面（包括 `logic-coloc`）的运行时：
+
+```html
+<!-- logic-coloc 挂载 web/ 为 /static，因此这里使用同源 /static 路径 -->
+<link rel="stylesheet" href="/static/pet-runtime/pet-runtime.css">
+<script src="/static/pet-runtime/pet-runtime.js"></script>
+<script src="/static/pet-runtime/logic-coloc-adapter.js"></script>
+<script>
+  const pet = connectLogicColocPet({
+    assetBase: "/static/pet-runtime/assets",
+    container: document.body,
+    draggable: true
+  });
+
+  // 主体项目只发送业务事件，不直接操作图片帧
+  pet.emit("knowledge.explain.completed"); // idea
+  pet.emit("card.created");                 // savecard
+  pet.emit("review.mastered");              // mastered
+  pet.emit("level.changed.lv2");            // lv2（最高优先级）
+</script>
+```
+
+主体项目也可以完全不持有桌宠实例，只派发事件：
+
+```js
+window.dispatchEvent(new CustomEvent("logic-coloc:pet", {
+  detail: { event: "knowledge.explain.completed", payload: { sessionId } }
+}));
+```
+
+生产环境请把 `dist/`、`assets/` 一起复制到主体项目的静态目录，并让 `assetBase` 指向同源 URL。运行时不依赖后端请求；资源加载失败会自动从 WebP 回退到 PNG，再回退到待机首帧。
+
+### 对接事件
+
+| 事件 | 动作 |
+|---|---|
+| `app.returned` | `wave` |
+| `knowledge.explain.completed` | `idea` |
+| `knowledge.followup.milestone` | `followup` |
+| `knowledge.crosslink.found` | `crosslink` |
+| `card.created` | `savecard` |
+| `note.created` | `newnote` |
+| `book.created` | `newbook` |
+| `review.mastered` | `mastered` |
+| `review.vague` / `review.forgotten` | `forgotten` |
+| `level.changed.lv2`～`lv5` | 对应升级动作 |
+| `app.idle` | `normal`（最低优先级） |
+
+非 `normal` 动作按优先级进入队列；升级动作最高，待机不会打断任何正在播放的业务动作。桌宠位置以比例保存在浏览器本地，支持鼠标、触摸和触控笔拖动。
+
 直接用浏览器打开 `demo/pet_demo.html`，或者改完素材后重新生成：
 
 ```bash
