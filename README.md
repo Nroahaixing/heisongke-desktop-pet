@@ -48,7 +48,7 @@ cd demo
 python3 gen_demo.py
 ```
 
-`gen_demo.py` 只把图片相对路径写入 HTML，不再将 PNG 转成 Base64 嵌入；因此在线部署时需同时提供 `assets/` 目录。
+`gen_demo.py` 只把图片相对路径写入 HTML，不再将 PNG 转成 Base64 嵌入；在线部署时需同时提供 `assets/` 目录。
 
 ### 发布到公网（GitHub Pages）
 
