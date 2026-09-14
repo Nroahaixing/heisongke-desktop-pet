@@ -500,7 +500,7 @@
 
     let i = 0;
     setFrame(state, i, total);
-    const frameInterval = (state === 'idea' || state === 'crosslink') ? 267 : 182;
+    const frameInterval = (state === 'idea' || state === 'crosslink') ? 267 : state === 'savecard' ? 200 : 182;
     currentTimer = setInterval(() => {
       i++;
       if (i >= total){
