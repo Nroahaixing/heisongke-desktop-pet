@@ -26,7 +26,7 @@ assets/
 demo/
 ├── demo_template.html  # 演示页模板（占位符 __FRAMES_JSON__ 会被替换成真实图片数据）
 ├── gen_demo.py          # 读取 assets/ 下的图片、生成可直接打开的 demo/pet_demo.html
-└── pet_demo.html        # 生成好的静态演示页，用浏览器直接打开即可播放动作
+└── pet_demo.html        # 生成好的静态演示页，通过相对路径加载 assets 中的图片
 
 wave.zip / idea.zip / followup.zip / crosslink.zip   # 对应状态的图片打包，文件名和内部图片名统一按 <状态>_<序号>.png 命名
 ```
@@ -47,6 +47,8 @@ wave.zip / idea.zip / followup.zip / crosslink.zip   # 对应状态的图片打�
 cd demo
 python3 gen_demo.py
 ```
+
+`gen_demo.py` 只把图片相对路径写入 HTML，不再将 PNG 转成 Base64 嵌入；因此在线部署时需同时提供 `assets/` 目录。
 
 ### 发布到公网（GitHub Pages）
 

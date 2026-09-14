@@ -1,16 +1,10 @@
-import base64, json, os
+import json, os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.join(HERE, "..", "assets")
 
 def load_frames(state, count):
-    frames = []
-    for i in range(1, count + 1):
-        path = os.path.join(ASSETS, state, f"{state}_{i}.png")
-        with open(path, "rb") as f:
-            b64 = base64.b64encode(f.read()).decode("ascii")
-        frames.append(f"data:image/png;base64,{b64}")
-    return frames
+    return [f"../assets/{state}/{state}_{i}.png" for i in range(1, count + 1)]
 
 data = {
     "normal": load_frames("normal", 9),
