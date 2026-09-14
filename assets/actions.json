@@ -88,9 +88,9 @@
     "newnote": {
       "label": "新建笔记",
       "trigger": "用户新建一篇笔记时触发",
-      "frameCount": 0,
+      "frameCount": 10,
       "path": "assets/newnote/newnote_*.png",
-      "status": "待补充"
+      "status": "已就绪"
     },
     "newbook": {
       "label": "整理书架/新建书籍",

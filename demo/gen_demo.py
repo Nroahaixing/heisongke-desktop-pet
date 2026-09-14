@@ -22,6 +22,7 @@ data = {
     "savecard": load_frames("savecard", 18),
     "mastered": load_frames("mastered", 16),
     "forgotten": load_frames("forgotten", 16),
+    "newnote": load_frames("newnote", 10),
 }
 
 frames_json = json.dumps(data)
